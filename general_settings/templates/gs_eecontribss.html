@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="card">
+		<div class="card-header">
+            <h4 class="card-title">
+            {{ head }}
+            </h4>
+        </div>
+		<div class="card-body">
+			<a href="{% url 'general-info' %}" class="btn btn-{% if page_nick == 'general-info'%}primary{% else %}danger{% endif %}">Company Info</a>
+			<a href="{% url 'pf-rates' %}" class="btn btn-{% if page_nick == 'pf-rates'%}success{% else %}success{% endif %}">PF Rates</a>
+		</div>
+</div>
+<div class="card">
+	<div class="card-body">
+
+		<div class="card-body">
+
+        <a href='{% url "eecontrib-create" %}' class="btn btn-primary" >Create New</a>
+
+				{% comment %} <form class="form-control" action="{% url 'search-employees' %}" method="post" style="margin-top: 10px">
+						{% csrf_token %}
+					<div class="row">
+	            <div class="col example-grid-col">
+								  <select class="form-control" name="company">
+								  	<option value="">Choose company</option>
+										{% for com in companies %}
+											<option value="{{com.company_name}}">{{com.company_name}}</option>
+										{% endfor %}
+								  </select>
+	            </div>
+	            <div class="col example-grid-col">
+	                <input type="text" class="form-control" name="employee_name" value="" placeholder="Search by employee">
+	            </div>
+
+				<div class="col example-grid-col">
+					<select class="form-control" name="payment_method">
+						<option value="">Choose payment method</option>
+							<option value="daily">daily</option>
+							<option value="weekly">weekly</option>
+							<option value="semi-monthly">semi-monthly</option>
+							<option value="monthly">monthly</option>
+					</select>
+	            </div>
+
+	            <div class="col example-grid-col">
+	                <input type="text" name="start_date" value="" class="datepicker dateinput form-control"  id="id_date_hired" placeholder="Start Date">
+	            </div>
+	            <div class="col example-grid-col">
+	                <input type="text" name="end_date" value="" class="datepicker dateinput form-control"  id="id_date_hired" placeholder="End Date">
+	            </div>
+
+	            <div class="col example-grid-col">
+					<select class="form-control" name="search_by">
+						<option value="">Choose Search By</option>
+							<option value="date_hired">Date Hired</option>
+							<option value="contract_expiration">Contract Expiration</option>
+					</select>
+	            </div>
+
+	            <div class="col example-grid-col">
+					<select class="form-control" name="order">
+						<option value="">Choose Order</option>
+							<option value="ascending">ascending</option>
+							<option value="descending">descending</option>
+					</select>
+	            </div>
+
+							<div class="col example-grid-col">
+	                <button type="submit" class="btn btn-info" name="button">Search</button>
+	            </div>
+	        </div>
+				</form> {% endcomment %}
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+			<div class="table-responsive" style="margin-top: 10px">
+				<table id="example" class="table table-striped table-bordered" style="width:100%">
+
+					<thead style="background-color: #539394; color:white;">
+						<tr>
+							<th scope="col" class="text-center">S.No</th>
+							<th scope="col" class="text-center">Contribution Amount</th>
+							<th scope="col" class="text-center">Salary Ranged</th>
+							<th scope="col" class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for ee_contrib in ee_pf_contrib %}
+							<tr>
+								<th class="align-middle text-center" scope="row">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ ee_contrib.contrib_amount }} </td>
+								<td class="align-middle text-center">{{ ee_contrib.ranged }} </td>
+								<td class="align-middle text-center">
+									<a href="{% url 'eecontrib-update' ee_contrib.id %}" class="btn btn-primary">Update</a>
+									<a href="{% url 'eecontrib-delete' ee_contrib.id %}" onclick="return confirm('Are you sure you want to delete this contribution?');" class="btn btn-danger">Delete</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

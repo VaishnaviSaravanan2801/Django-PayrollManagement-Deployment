@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">
+			{{ head }}
+			</h4>
+		</div>
+		<div class="card-body">
+        {% include "employee/update_menu.html" %}
+			<div class="table-responsive" style="margin-top: 10px">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" class="text-center">#</th>
+							<th scope="col" class="text-center">Cut Off Date</th>
+							<th scope="col" class="text-center">Contribution</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for cont in contribution %}
+							<tr>
+								<th class="align-middle text-center" scope="row">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ cont.cut_off_date }} </td>
+								<td class="align-middle text-center">{{ cont.contribution_collected }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

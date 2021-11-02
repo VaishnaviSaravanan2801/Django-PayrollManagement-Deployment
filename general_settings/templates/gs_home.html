@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="card">
+		<div class="card-header">
+            <h4 class="card-title">
+            {{ head }}
+            </h4>
+        </div>
+		<div class="card-body">
+			<a href="{% url 'general-info' %}" class="btn btn-{% if page_nick == 'general-info'%}danger{% else %}warning{% endif %}">Company Info</a>
+			<a href="{% url 'pf-rates' %}" class="btn btn-{% if page_nick == 'pf-rates'%}success{% else %}success{% endif %}">PF Rates</a>
+		</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+
+		{% if page_nick == 'pf-rates' %}
+		<h3>Create New PF Rates</h3><br>
+		<div class="pull-left">
+		    <a href="{% url 'pf-rates' %}" class="btn btn-info">Go Back</a>
+		</div>
+		{% endif %}
+		
+
+		<div class="row">
+			<div class="col example-grid-col">
+			</div>
+			<div class="col-7 example-grid-col">
+				<form method="POST" novalidate="">
+					<div class="form-group">
+						{% csrf_token %}
+						{{ form|crispy  }}
+					</div>
+					<button type="submit" class="btn btn-success"> Save</button>
+				</form>
+			</div>
+			<div class="col example-grid-col">
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<div class="card">
+		<div class="card-body">
+		  
+			<div class="row">
+				<div class="col example-grid-col">
+					<a href="{% url 'employee-show' %}" class="btn btn-warning">Go Back</a>
+				</div>
+				<div class="col-7 example-grid-col">
+					<form method="POST" novalidate="" enctype=multipart/form-data>
+						<div class="form-group" style="padding:20px 0px;">
+							<h5>Select Employee Resume</h5><br>
+							{% csrf_token %}
+							{{ form|crispy  }}
+						</div>
+						<button type="submit" class="btn btn-success"> Save</button>
+						<div align="right">
+							<a href="{% url 'employee-biodata' pk %} "class="pull-right btn btn-primary">Download Biodata / Resume </a>
+						</div>
+
+					</form>
+				</div>
+				<div class="col example-grid-col">
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">
+			{{ head }}
+			</h4>
+		</div>
+		<div class="card-body">
+
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+<!--			<div class="table-responsive" style="margin-top: 10px">-->
+               <table id="example" class="table table-striped table-bordered" style="width:100%">
+					<thead style="background-color: #539394; color:white;">
+						<tr>
+							<th scope="col" class="text-center">S.No</th>
+							<th scope="col" class="text-center">Action</th>
+							<th scope="col" class="text-center">Action By</th>
+							<th scope="col" class="text-center">Date</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% for log in logs %}
+							<tr>
+								<th class="align-middle text-center">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ log.action }} </td>
+								<td class="align-middle text-center">{{ log.action_by }} </td>
+								<td class="align-middle text-center">{{ log.action_date}}</td>
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+<!--			</div>-->
+
+
+		</div>
+	</div>
+
+{% endblock content %}

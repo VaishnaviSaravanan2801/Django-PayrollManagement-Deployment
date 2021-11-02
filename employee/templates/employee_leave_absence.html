@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<div class="card">
+		<div class="card-body">
+			<div class="row">
+				<div class="col example-grid-col">
+				</div>
+				<div class="col-7 example-grid-col">
+					<form method="POST" novalidate="">
+						<div class="form-group">
+							{% csrf_token %}
+							{{ form|crispy  }}
+						</div>
+						<input type="hidden" name="employee_id" value="{{employee.pk}}">
+						<button type="submit" class="btn btn-success"> Save</button>
+					</form>
+				</div>
+				<div class="col example-grid-col">
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+  {% if may_leave %}
+
+  <div class="card">
+		<div class="card-body">
+			<div class="table-responsive" style="margin-top: 10px">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" class="text-center">S.No</th>
+							<th scope="col" class="text-center">Start Date </th>
+							<th scope="col" class="text-center">End Date</th>
+							<th scope="col" class="text-center">No of Days</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for leave in may_leave %}
+							<tr>
+								<th class="align-middle text-center" scope="row">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ leave.start_date }} </td>
+								<td class="align-middle text-center">{{ leave.end_date }}</td>
+								<td class="align-middle text-center">{{ leave.no_of_days }}</td>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+</div>
+		</div>
+	</div>
+
+  {% endif %}
+
+
+
+{% endblock content %}

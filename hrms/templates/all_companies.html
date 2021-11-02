@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<div class="card">
+
+		<div class="card-header">
+			<h4 class="card-title">
+			{{ head }}
+			</h4>
+		</div>
+
+		<div class="card-body">
+
+	        <a href='{% url "company-add" %}' class="btn btn-danger" >Add Company</a>
+
+	        {% comment %}
+
+	        <form class="form-control" action="{% url 'search-company' %}" method="post" style="margin-top: 10px">
+							{% csrf_token %}
+				<div class="row">
+		            <div class="col example-grid-col">
+					  <select class="form-control" name="company">
+					  	<option value="">Choose company</option>
+							{% for com in companies %}
+								<option value="{{com.company_name}}">{{com.company_name}}</option>
+							{% endfor %}
+					  </select>
+		            </div>
+
+					<div class="col example-grid-col">
+		                <button type="submit" class="btn btn-info" name="button">Search</button>
+		            </div>
+		        </div>
+			</form> {% endcomment %}
+
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+			<div class="table-responsive" style="margin-top: 10px">
+				<table id="example" class="table table-striped table-bordered" style="width:100%">
+					<thead style="background-color: #539394; color:white">
+						<tr>
+							<th scope="col" class="text-center">S.No</th>
+							<th scope="col" class="text-center">Company Name</th>
+							<th scope="col" class="text-center">Contact Person</th>
+							<th scope="col" class="text-center">Phone</th>
+							<th scope="col" class="text-center">Email</th>
+							<th scope="col" class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for company in companies %}
+							<tr>
+								<th class="align-middle text-center" scope="row">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ company.company_name|upper }}</td>
+								<td class="align-middle text-center">{{ company.contact_person|title }}</td>
+								<td class="align-middle text-center">{{ company.phone }}</td>
+								<td class="align-middle text-center">{{ company.email }}</td>
+								<td class="align-middle text-center">
+									<a href="{% url 'company-gov-deducts' company.pk %}" class="btn btn-danger">Update</a>
+								<!-- <a href="{% url 'company-delete' company.pk %}" class="btn btn-danger">Delete</a>-->
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+
+{% endblock content %}

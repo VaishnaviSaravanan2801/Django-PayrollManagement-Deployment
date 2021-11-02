@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<div class="card">
+		<div class="card-body">
+
+			<div class="row">
+				<div class="col example-grid-col">
+					<a href="{% url 'employee-show' %}" class="btn btn-info">Go Back</a>
+				</div>
+				<div class="col-7 example-grid-col">
+					<form method="POST" novalidate="" enctype=multipart/form-data>
+						<div class="form-group" style="padding:20px 0px;">
+							<h5>Select a Picture</h5><br>
+							{% csrf_token %}
+							{{ form.picture}}
+						</div>
+						NOTE: Click only the save button if you have chosen a picture <br><br>
+						<button type="submit" class="btn btn-success"> Save</button>
+
+					</form>
+				</div>
+
+				<div class="col example-grid-col">
+
+							{% if employee.picture %}
+							<img src="{{employee.picture.url}}" class="img-thumbnail"  alt="">
+							{% endif %}
+						{# {{request.user.employee_picture.picture}} #}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock content %}

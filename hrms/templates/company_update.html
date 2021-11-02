@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="card">
+		<div class="card-body">
+			<a href="{% url 'company-show'%}" class="btn btn-warning">Go back</a>
+			<a href="{% url 'company-gov-deducts' company_id %}" class="btn btn-{% if page_nick == 'gov-deducts'%}primary{% else %}warning{% endif %}">Gov. Deductions</a>
+			<a href="{% url 'company-other-options' company_id %}" class="btn btn-{% if page_nick == 'other-opt'%}primary{% else %}warning{% endif %}">Activate Other Options</a>
+			<a href="{% url 'print-employees' company_id %}" class="btn btn-{% if page_nick == 'print-emp'%}primary{% else %}warning{% endif %}">Print Employees</a>
+		</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+	<!-- 		<form action='{% url "company-delete" company_id %}' method="POST">
+				{% csrf_token %}
+			<button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this company?');">Delete</button>
+			</form>
+ -->
+		<div class="row">
+			<div class="col example-grid-col">
+			</div>
+
+			<div class="col-7 example-grid-col">
+				<h3>Other Activation Options</h3><br>
+
+				<form method="POST" novalidate="">
+					<div class="form-group">
+						{% csrf_token %}
+						{{ form|crispy  }}
+					</div>
+					<button type="submit" class="btn btn-success"> Save</button>
+				</form>
+
+			</div>
+
+			<div class="col example-grid-col">
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% endblock content %}

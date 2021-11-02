@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">
+			{{ head }}
+			</h4>
+		</div>
+		<div class="card-body">
+
+        <a href='{% url "company-show" %}' class="btn btn-warning" >Go back</a>
+			<div class="table-responsive" style="margin-top: 10px">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" class="text-center">#</th>
+							<th scope="col" class="text-center">Company Name</th>
+							<th scope="col" class="text-center">CONTACT PERSON</th>
+							<th scope="col" class="text-center">PHONE</th>
+							<th scope="col" class="text-center">EMAIL</th>
+							<th scope="col" class="text-center">ACTION</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for com in search_results %}
+							<tr>
+								<th class="align-middle text-center" scope="row">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ com.company_name }}</td>
+								<td class="align-middle text-center">{{ com.contact_person }}</td>
+								<td class="align-middle text-center">{{ com.phone }}</td>
+								<td class="align-middle text-center">{{ com.email }}</td>
+								<td class="align-middle text-center">
+									<a href="{% url "company-update" com.id %}" class="btn btn-info">Update</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

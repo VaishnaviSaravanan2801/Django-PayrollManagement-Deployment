@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">
+			{{ head }}
+			</h4>
+		</div>
+		<div class="card-body">
+
+        <a href='{% url "employee-show" %}' class="btn btn-warning" >Go back</a>
+			<div class="table-responsive" style="margin-top: 10px">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" class="text-center">#</th>
+							<th scope="col" class="text-center">Employee Name</th>
+							<th scope="col" class="text-center">SSS</th>
+							<th scope="col" class="text-center">Phone</th>
+							<th scope="col" class="text-center">Position</th>
+							<th scope="col" class="text-center">Company</th>							
+							<th scope="col" class="text-center">Date Hired</th>
+							<th scope="col" class="text-center">Contact Expiration</th>
+							<th scope="col" class="text-center">Remarks</th>
+							<th scope="col" class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for emp in search_results %}
+							<tr>
+								<th class="align-middle text-center" scope="row">{{ forloop.counter}}</th>
+								<td class="align-middle text-center">{{ emp.employee.first_name }} {{ emp.employee.middle_name}} {{emp.employee.last_name}}</td>
+								<td class="align-middle text-center">{{ emp.sss }}</td>
+								<td class="align-middle text-center">{{ emp.employee.phone }}</td>
+								<td class="align-middle text-center">{{ emp.position }}</td>
+								<td class="align-middle text-center">{{ emp.employee.company }}</td>
+								<td class="align-middle text-center">{{ emp.employee.date_hired }}</td>
+								<td class="align-middle text-center">{{ emp.employee.contract_expiration }}</td>
+								<td class="align-middle text-center">{{ emp.employee.remarks }}</td>
+								<td class="align-middle text-center">
+									<a href="{% url 'employee-update' emp.employee.id %}" class="btn btn-info">Update</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

@@ -1,0 +1,358 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{{ title }}</title>
+        <link type="text/css" href="{% static 'assets/css/vendor-morris.css" rel="stylesheet'%}">
+        <link type="text/css" href="{% static 'assets/css/vendor-bootstrap-datepicker.css' %}" rel="stylesheet">
+        <!-- Prevent the demo from appearing in search engines -->
+        <meta name="robots" content="noindex">
+        <!-- App CSS -->
+        <link type="text/css" href="{% static 'assets/css/app.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'assets/css/app.rtl.css' %}" rel="stylesheet">
+        <!-- Simplebar -->
+        <link type="text/css" href="{% static 'assets/vendor/simplebar.css' %}" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    </head>
+    <style>
+        #mydashboard:hover{
+            background-color: rgb(58, 54, 54, .5);
+
+        }
+    </style>
+    <body>
+        <div class="mdk-drawer-layout js-mdk-drawer-layout" data-fullbleed data-push data-responsive-width="992px" data-has-scrolling-region>
+            <div class="mdk-drawer-layout__content">
+                <!-- header-layout -->
+                <div class="mdk-header-layout js-mdk-header-layout  mdk-header--fixed  mdk-header-layout__content--scrollable">
+                    <!-- header -->
+                    <div class="mdk-header js-mdk-header bg-dark" data-fixed>
+                        <div class="mdk-header__content">
+                            <nav class="navbar navbar-expand-md navbar-dark d-flex-none" style="background: linear-gradient(to right, #43cea2 -15%, #185a9d 100%); font-family: Trebuchet MS, sans-serif;">
+                                <button class="btn btn-link text-white pl-0" type="button" data-toggle="sidebar">
+                                <i class="material-icons align-middle md-36">short_text</i>
+                                </button>
+                                <div class="page-title m-0">{{ head }}</div>
+                                <div class="collapse navbar-collapse" id="mainNavbar">
+                                    <ul class="navbar-nav ml-auto align-items-center">
+                                        <h5>Hello, {{ request.user }}!</h5>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- content -->
+                    <div class="mdk-header-layout__content top-navbar mdk-header-layout__content--scrollable h-100">
+                        <!-- main content -->
+                        <div class="container-fluid">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert {{ message.tags }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% block content %}
+                            {% endblock content %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // END drawer-layout__content -->
+            <!-- drawer -->
+            <div class="mdk-drawer js-mdk-drawer" id="default-drawer">
+                <div class="mdk-drawer__content">
+                    <div class="mdk-drawer__inner" data-simplebar data-simplebar-force-enabled="true">
+                        <nav class="drawer  drawer--dark" style="background: linear-gradient(to right, #43cea2 -15%, #185a9d 100%); font-family: Trebuchet MS, sans-serif;">
+                            <div class="drawer-spacer">
+                                <div class="media align-items-center">
+                                    <a href="">
+                                        <img src="{% static 'images/vslogo.png' %}" class="rounded-circle mr-2" width="40" height="40" style="margin-left:10px;">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="" class="h5 m-0 text-link"><h4>Payroll System</h4></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DASHBOARDS MENU -->
+                            <ul class="drawer-menu" id="dasboardMenu" data-children=".drawer-submenu" style="margin-left:-20px;">
+                                <li class="drawer-menu-item active" id="mydashboard">
+                                    <a href='{% url "dashboard" %}'>
+                                        <span class="drawer-menu-text"><i class="fa fa-tachometer-alt" style="margin:12px;"></i>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="drawer-menu-item active ">
+                                    <a href='{% url "company-show" %}' id="mydashboard">
+                                        <span class="drawer-menu-text"><i class="fa fa-building" aria-hidden="true" style="margin:13px;"></i>Company</span>
+                                    </a>
+                                </li>
+                                <li class="drawer-menu-item active ">
+                                    <a href='{% url "employee-show" %}' id="mydashboard">
+
+                                        <span class="drawer-menu-text"><i class="fa fa-user" aria-hidden="true"  style="margin:13px;"></i>Employee</span>
+                                    </a>
+                                       {% if for_update %}    
+                                        <ul>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-update' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-inbox" aria-hidden="true" style="margin:12px;"></i>Basic Info</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-upload-picture' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-upload" aria-hidden="true" style="margin:12px;"></i>Upload Picture</span>
+                                                </a>
+                                            </li>
+                                            
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-preferences' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-info-circle" aria-hidden="true" style="margin:12px;"></i>Nominee Details</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-records' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-arrow-left" aria-hidden="true" style="margin:13px;"></i>Previous Record</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-hiring-details' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-money" aria-hidden="true" style="margin:10px;"></i>Payment Details</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-resume' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-pencil-square-o" aria-hidden="true" style="margin:11px;"></i>Update Resume</span>
+                                                </a>
+                                            </li>
+
+                                            {% if employee.company.get_company_rates.activate_company_loan %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-company-loan' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-briefcase" aria-hidden="true" style="margin:12px;"></i>Company Loan</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+
+                                            {% if employee.company.get_company_rates.activate_pagibig_loan %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-pagibig-loan' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-home" aria-hidden="true" style="margin:12px;"></i>Housing Loan</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+
+                                            {% if employee.company.activate_uniform %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-uniform' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa-solid fa-uniform-martial-arts" style="margin:12px;"></i>Uniform</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            
+                                            {% if employee.company.get_company_rates.activate_medical %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-medical' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-ambulance" aria-hidden="true" style="margin:10px;"></i>Medical Availability</span>
+                                                </a>
+                                            </li>
+                                            {% endif %} 
+
+                                            {% if employee.company.get_company_rates.activate_canteen %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-canteen' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-heart" aria-hidden="true" style="margin:12px;"></i>Canteen</span>
+                                                </a>
+                                            </li>
+                                            {% endif %} 
+
+                                            {% if employee.company.get_company_rates.activate_gatepass %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-gatepass' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-check" aria-hidden="true" style="margin:12px;"></i>Gatepass</span>
+                                                </a>
+                                            </li>
+                                            {% endif %} 
+
+                                            {% if employee.company.get_company_rates.activate_vale %}
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-vale' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-money" aria-hidden="true" style="margin:10px;"></i>Cash Advance</span>
+                                                </a>
+                                            </li>
+                                            {% endif %} 
+
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-acceptance' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-envelope-open" aria-hidden="true" style="margin:12px;"></i>Acceptance Letter</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-leave-absence' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-clock-o" aria-hidden="true" style="margin:12px;"></i>Leave Absence</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-endorsement-letter' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-envelope-open" aria-hidden="true" style="margin:12px;"></i>Endorsement Letter</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-requirements' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-bookmark" aria-hidden="true" style="margin:13px;"></i>Requirements</span>
+                                                </a>
+                                            </li>
+                                            <li class="drawer-menu-item active" id="mydashboard">
+                                                <a href="{% url 'employee-memo' pk %}">
+                                                    <span class="drawer-menu-text"><i class="fa fa-minus-square" aria-hidden="true" style="margin:12px;"></i>Memo</span>
+                                                </a>
+                                            </li>
+                                        </ul>  
+                                        {% endif %}       
+                                    </li>
+
+                                <li class="drawer-menu-item active" id="mydashboard">
+                                    <a href='{% url "show" %}'>
+                                       
+                                        <span class="drawer-menu-text"><i class="fa fa-floppy-o" aria-hidden="true" style="margin:13px;"></i>Logs</span>
+                                    </a>
+                                </li>
+
+                                <li class="drawer-menu-item active" id="mydashboard">
+                                    <a href='{% url "general-settings" %}'>
+                                        
+                                        <span class="drawer-menu-text"><i class="fa fa-wrench" aria-hidden="true" style="margin:11px;"></i>General Settings</span>
+                                    </a>
+                                </li>
+                                <li class="drawer-menu-item active" id="mydashboard">
+                                    <a href='{% url "logout" %}'>
+                                        
+                                        <span class="drawer-menu-text"><i class="fa fa-outdent" aria-hidden="true" style="margin:13px;"></i>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- // END drawer -->
+        {% comment %}
+        modal
+    {% endcomment %}
+
+
+    <script src="{% static 'assets/vendor/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/popper.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/simplebar.js' %}"></script>
+    <script src="{% static 'assets/vendor/Chart.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/color_variables.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'assets/vendor/dom-factory.js' %}"></script>
+    <script src="{% static 'assets/vendor/material-design-kit.js' %}"></script>
+    <script>
+    (function() {
+    'use strict';
+    domFactory.handler.autoInit()
+    var sidebarToggle = document.querySelectorAll('[data-toggle="sidebar"]')
+    sidebarToggle.forEach(function(toggle) {
+    toggle.addEventListener('click', function(e) {
+    var selector = e.currentTarget.getAttribute('data-target') || '#default-drawer'
+    var drawer = document.querySelector(selector)
+    if (drawer) {
+    if (selector == '#default-drawer') {
+    $('.container-fluid').toggleClass('container--max');
+    }
+    drawer.mdkDrawer.toggle();
+    }
+    })
+    })
+    })()
+    </script>
+    <script src="{% static 'assets/vendor/morris.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/raphael.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker.js' %}"></script>
+    <script>
+    $(function() {
+    window.morrisDashboardChart = new Morris.Area({
+    element: 'morris-area-chart',
+    data: [{
+    year: '2016-05',
+    a: 5352.27
+    },
+    {
+    year: '2016-11',
+    a: 4309.98
+    },
+    {
+    year: '2017-05',
+    a: 3352.27
+    },
+    {
+    year: '2017-11',
+    a: 4309.98
+    },
+    {
+    year: '2018-04',
+    a: 1465.98
+    },
+    {
+    year: '2018-11',
+    a: 1298.25
+    },
+    {
+    year: '2019-05',
+    a: 3209
+    },
+    {
+    year: '2019-11',
+    a: 2083
+    },
+    {
+    year: '2020-03',
+    a: 1285.23
+    },
+    {
+    year: '2020-11',
+    a: 1500
+    },
+    {
+    year: '2021-03',
+    a: 3430
+    },
+    {
+    year: '2021-10',
+    a: 8921.19
+    }
+    ],
+    xkey: 'year',
+    ykeys: ['a'],
+    labels: ['Earnings'],
+    lineColors: ['#fff'],
+    fillOpacity: '0.2',
+    gridEnabled: true,
+    gridTextColor: '#ffffff',
+    resize: true
+    });
+    });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js
+    "></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js
+    "></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js
+    "></script>
+    <script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+    } );
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% if for_update %}
+<div align="center" class="card-body">
+  <a href="{% url 'employee-update' pk %}" class="btn btn-success">Basic Info</a>
+  <a href="{% url 'employee-upload-picture' pk %}" class="btn btn-success">Upload Picture</a>
+  <a href="{% url 'employee-preferences' pk %}" class="btn btn-success">Nominee Details</a>
+  <a href="{% url 'employee-records' pk %}" class="btn btn-success">Record</a>
+  <a href="{% url 'employee-hiring-details' pk %}" class="btn btn-success">Payment Details</a>
+  <a href="{% url 'employee-resume' pk %}" class="btn btn-success">Resume</a>
+  
+  {% if employee.company.get_company_rates.activate_company_loan %}
+    <a href="{% url 'employee-company-loan' pk %}" class="btn btn-danger">Company Loan</a>
+  {% endif %}
+  {% if employee.company.get_company_rates.activate_pagibig_loan %}
+    <a href="{% url 'employee-pagibig-loan' pk %}" class="btn btn-danger">Housing Loan</a>
+  {% endif %}
+
+  {% if employee.company.activate_uniform %}
+    <a href="{% url 'employee-uniform' pk %}" class="btn btn-danger">Uniform</a>
+  {% endif %}
+
+  {% if employee.company.get_company_rates.activate_medical %}
+    <a href="{% url 'employee-medical' pk %}" class="btn btn-danger">Medical</a>
+  {% endif %}
+
+  {% if employee.company.get_company_rates.activate_canteen %}
+    <a href="{% url 'employee-canteen' pk %}" class="btn btn-danger">Canteen</a>
+  {% endif %}
+
+  {% if employee.company.get_company_rates.activate_gatepass %}
+    <a href="{% url 'employee-gatepass' pk %}" class="btn btn-danger">Gatepass</a>
+  {% endif %}
+
+  {% if employee.company.get_company_rates.activate_vale %}
+    <a href="{% url 'employee-vale' pk %}" class="btn btn-danger">Cash Advance</a><br><br>
+  {% endif %}
+
+  <a href="{% url 'employee-acceptance' pk %}" class="btn btn-warning">Acceptance Letter</a>
+
+  <a href="{% url 'employee-leave-absence' pk %}" class="btn btn-warning">Leave Absence</a>
+
+  <a href="{% url 'employee-endorsement-letter' pk %}" class="btn btn-warning">Endorsement Letter</a>
+
+  <a href="{% url 'employee-requirements' pk %}" class="btn btn-warning">Requirements</a>
+
+  <a href="{% url 'employee-memo' pk %}" class="btn btn-warning">Memo</a><br><br>
+
+</div>
+{% endif %}
